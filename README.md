@@ -2,26 +2,35 @@
 
 # Reflection 1
 1. Prinsip Clean Code yang Diterapkan
-Selama pengerjaan fitur Create, Read, Edit, dan Delete (CRUD), berikut adalah prinsip Clean Code yang saya terapkan:
+- Meaningful Names: Saya menggunakan penamaan variabel dan metode yang deskriptif. Contohnya, findAll(), findById(), update(), dan delete() pada bagian Service dan Repository memudahkan pemahaman tujuan dari setiap fungsi tanpa memerlukan komentar.
 
-Meaningful Names: Saya menggunakan penamaan variabel dan metode yang deskriptif. Contohnya, findAll(), findById(), update(), dan delete() pada layer Service dan Repository memudahkan pembaca memahami tujuan dari setiap fungsi tanpa memerlukan banyak komentar.
+- Separation of Concerns: Struktur proyek memisahkan tanggung jawab dengan jelas menggunakan pola MVC. Controller menangani HTTP request, Service menangani logika bisnis, dan Repository fokus pada manajemen data. Hal ini membuat kode lebih mudah diuji dan dipelihara.
 
-Separation of Concerns: Struktur proyek memisahkan tanggung jawab dengan jelas menggunakan pola MVC. Controller hanya menangani HTTP request, Service menangani logika bisnis, dan Repository fokus pada manajemen data. Hal ini membuat kode lebih mudah diuji (testable) dan dipelihara.
-
-DRY (Don't Repeat Yourself): Penggunaan library Lombok (seperti @Getter dan @Setter) membantu menghilangkan kode boilerplate yang berulang. Selain itu, logika manipulasi list dipusatkan di Repository sehingga tidak ada duplikasi logika di layer Service.
+- Don't Repeat Yourself: Penggunaan library Lombok (seperti @Getter dan @Setter) membantu menghilangkan kode yang berulang. Selain itu, logika manipulasi list dipusatkan di Repository sehingga tidak ada duplikasi logika di layer Service.
 
 2. Masalah yang Ditemukan dalam Implementasi
-Dalam proses pengerjaan, terdapat beberapa tantangan:
+Conflict saat merge branch edit-product dan delete-product ke branch main
 
-Manajemen ID: Karena kita tidak menggunakan database relasional (masih menggunakan ArrayList), memastikan keunikan ID saat pembuatan produk sangat penting agar fitur Edit dan Delete tidak salah sasaran.
+Solusi:
+- Membuka file yang berkonflik di IntelliJ, kemudian memilih secara manual bagian kode mana yang ingin dipertahankan (Accept Incoming Change, Accept Current Change, atau menggabungkan keduanya).
+- Setelah konflik diselesaikan secara manual, saya melakukan git add pada file tersebut untuk menandai bahwa konflik telah selesai, kemudian melakukan git commit untuk mengakhiri proses merge.
 
-Redirect Path: Sempat muncul potensi error ERR_TOO_MANY_REDIRECTS jika penulisan path pada instruksi return "redirect:..." tidak tepat atau relatif terhadap struktur URL yang sedang diakses. Solusinya adalah menggunakan absolute path seperti redirect:/product/list.
+3. Secure Coding yang diterapkan
+- Pada form Edit, ID produk disimpan dalam <input type="hidden">. Ini memastikan ID tetap terjaga selama proses pengiriman data tanpa harus ditampilkan kepada pengguna.
+- Penggunaan CDN dengan atribut Subresource Integrity untuk memastikan bahwa library eksternal tidak dimodifikasi oleh pihak ketiga yang tidak bertanggung jawab.
 
-3. Apakah Kode Sudah Mengikuti Prinsip Secure Coding?
-Secara umum, implementasi saat ini sudah mulai menerapkan dasar keamanan, namun masih banyak ruang untuk peningkatan:
+# Reflection 2
 
-Post-Redirect-Get (PRG): Saya telah menerapkan pola ini. Setelah melakukan POST (Create/Edit), sistem melakukan redirect ke halaman list. Ini mencegah pengiriman data ganda jika pengguna menekan tombol refresh pada browser.
+1.
+Setelah menulis unit test, saya merasa lebih percaya diri terhadap integritas kode saya. 
 
-Hidden Fields: Pada form Edit, ID produk disimpan dalam <input type="hidden">. Ini memastikan ID tetap terjaga selama proses pengiriman data tanpa harus ditampilkan kepada pengguna.
+Berapa banyak unit test yang harus dibuat dalam satu class? Tidak ada angka pasti, namun jumlahnya harus cukup untuk mencakup semua jalur logika (branch coverage).
 
-Kekurangan (Ruang Improvisasi): Kode saat ini belum memiliki validasi input yang kuat (misalnya, mencegah kuantitas negatif atau nama kosong). Selain itu, tidak ada pengecekan apakah ID yang akan dihapus benar-benar ada, yang bisa menyebabkan NullPointerException jika tidak ditangani.
+Apakah 100% Code Coverage berarti kode bebas bug? Tidak, karena Code coverage hanyalah menunjukkan baris kode mana yang telah dieksekusi selama tes. Coverage tinggi tidak menjamin logika kodenya benar. Contohnya, kita bisa memiliki coverage 100% pada fungsi pembagian, tetapi jika kita lupa mengetes pembagian dengan angka nol, maka program bisa saja crash.
+
+2.
+Jika saya membuat functional test baru yang memverifikasi jumlah item di product list, dengan menggunakan prosedur setup dan variabel dari functional test yang sudah dibuat sebelumnya, ada beberapa isu Clean Code yang muncul:
+
+Don't Repeat Yourself: Kode untuk inisialisasi baseUrl, pengambilan serverPort, dan konfigurasi driver akan berulang di setiap file test baru. Jika ada perubahan pada konfigurasi server atau driver, saya harus mengubah semua file test satu per satu.
+
+Lack of Abstraction: Tes fungsional menjadi terlalu detail dalam hal teknis infrastruktur (seperti pengaturan URL) daripada fokus pada skenario perilaku pengguna
