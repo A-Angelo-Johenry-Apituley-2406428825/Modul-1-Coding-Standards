@@ -19,6 +19,11 @@ class ProductRepositoryTest {
     ProductRepository productRepository;
     @BeforeEach
     void setUp() {
+        /*
+         * No setup required.
+         * ProductRepository is initialized automatically by MockitoExtension
+         * via @InjectMocks.
+         */
     }
     @Test
     void testCreateAndFind() {
