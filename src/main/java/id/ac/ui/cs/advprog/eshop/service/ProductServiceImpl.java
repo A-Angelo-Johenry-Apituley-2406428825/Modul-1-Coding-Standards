@@ -13,8 +13,8 @@ public class ProductServiceImpl implements ProductService{
 
     private final ProductRepository productRepository;
 
-    public ProductServiceImpl(ProductRepository prodductRepository) {
-        this.productRepository = prodductRepository;
+    public ProductServiceImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
     @Override
