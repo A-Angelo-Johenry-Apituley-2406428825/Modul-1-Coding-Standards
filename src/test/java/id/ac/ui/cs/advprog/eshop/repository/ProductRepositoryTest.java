@@ -41,6 +41,21 @@ class ProductRepositoryTest {
         assertEquals(product.getProductQuantity(), savedProduct.getProductQuantity());
     }
     @Test
+    void testFindById() {
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        product.setProductName("Sampo Cap Bambang");
+        product.setProductQuantity(100);
+        productRepository.create(product);
+        Product result = productRepository.findById("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        assertNotNull(result);
+    }
+    @Test
+    void testFindByIdNotFound() {
+        Product result = productRepository.findById("non-existent-id");
+        assertNull(result);
+    }
+    @Test
     void testFindAllIfEmpty() {
         Iterator<Product> productIterator = productRepository.findAll();
         assertFalse(productIterator.hasNext());
@@ -97,7 +112,6 @@ class ProductRepositoryTest {
         Product result = productRepository.update(product);
         assertNull(result);
     }
-
     @Test
     void testDeleteProduct() {
         Product product = new Product();
