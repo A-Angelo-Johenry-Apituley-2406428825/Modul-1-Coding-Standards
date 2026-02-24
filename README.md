@@ -34,3 +34,17 @@ Jika saya membuat functional test baru yang memverifikasi jumlah item di product
 Don't Repeat Yourself: Kode untuk inisialisasi baseUrl, pengambilan serverPort, dan konfigurasi driver akan berulang di setiap file test baru. Jika ada perubahan pada konfigurasi server atau driver, saya harus mengubah semua file test satu per satu.
 
 Lack of Abstraction: Tes fungsional menjadi terlalu detail dalam hal teknis infrastruktur (seperti pengaturan URL) daripada fokus pada skenario perilaku pengguna
+
+# Reflection 3
+1. Code quality issues yang saya fix sebagian besar berpengaruh terhadap maintainability dan reliability, yaitu:
+   - Isu field injection
+     Strategi: menghapush field injection lalu menggantinya dengan constructor injection
+   - Isu method kosong
+     Strategi: menambahkan nested comment yang menjelaskan mengapa method tersebut kosong
+   - Mengelompokkan dependencies berdasarkan fungsinya
+   - Menghapus import yang tidak dipakai
+   - Menghapus exception yang tidak terpakai
+   - Mengganti "read-all" menjadi "contents:read"
+3. Menurut saya, implementasi yang telah saya buat sudah memenuhi definisi Continuous Integration (CI) dan Continuous Deployment (CD) dengan alasan sebagai berikut:
+  - Aspek Continuous Integration terpenuhi karena setiap kali ada perubahan kode yang di-push ke repositori, GitHub Actions secara otomatis menjalankan test suite dan analisis kualitas kode (SonarCloud) untuk memastikan integrasi baru tidak merusak fitur yang ada. 
+  - Aspek Continuous Deployment tercapai karena alur kerja (workflow) yang kamu buat memungkinkan aplikasi dideploy secara otomatis ke PaaS (Heroku) segera setelah kode dinyatakan lulus tahap pengujian dan analisis.
