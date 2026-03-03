@@ -48,3 +48,39 @@ Lack of Abstraction: Tes fungsional menjadi terlalu detail dalam hal teknis infr
 3. Menurut saya, implementasi yang telah saya buat sudah memenuhi definisi Continuous Integration (CI) dan Continuous Deployment (CD) dengan alasan sebagai berikut:
   - Aspek Continuous Integration terpenuhi karena setiap kali ada perubahan kode yang di-push ke repositori, GitHub Actions secara otomatis menjalankan test suite dan analisis kualitas kode (SonarCloud) untuk memastikan integrasi baru tidak merusak fitur yang ada. 
   - Aspek Continuous Deployment tercapai karena alur kerja (workflow) yang kamu buat memungkinkan aplikasi dideploy secara otomatis ke PaaS (Heroku) segera setelah kode dinyatakan lulus tahap pengujian dan analisis.
+
+# Reflection 4
+1. Principle yang saya terapkan yaitu:
+    1. Single Responsibility Principle
+        - Memindahkan logika update dari CarRepository.java ke Car.java, sehingga CarRepository hanya bertugas untuk mengelola akses data.
+        - Memisahkan CarController 
+    2. Open Closed Principle
+        - Abstraction melalui interface sehingga jika ingin mengganti penyimpanan data, cukup membuat implementasi baru tanpa mengubah controller.
+    3. Liskov Substitution Principle
+        - Menghapus 'extends ProductController' karena CarController bukan turunan dari ProductController sehingga setiap controller berdiri sendiri sesuai tanggung jawabnya.
+    4. Interface Segregation Principle
+        - Interface dari CarService tidak besar sehingga tidak dilakukan perubahan
+    5. Dependency Inversion Principle
+        - Mengganti private CarServiceImpl carService, menjadi private CarService carService, sehingga Controller bergantung pada interface, bukan concrete class
+2. Kelebihan menerapkan SOLID, yaitu:
+    - Kode lebih mudah dimaintain
+        Karena setiap class memiliki tanggung jawab jelas (SRP), perubahan pada repository tidak akan mempengaruhi controller 
+        Contohnya, jika ingin mengganti UUID menjadi auto-increment ID, hanya perlu mengubah CarRepository, tanpa mengubah controller
+    - Kode menjadi scalable
+        Karena menggunakan interface (OCP & DIP)
+        Jika ingin mengganti penyimpanan ke database:
+          public class CarServiceDatabaseImpl implements CarService
+        Controller tidak perlu diubah.
+    - Lebih mudah dilakukan test
+        Karena controller bergantung pada interface, sehingga dapat dilakukan mocking, yang dapat membuat unit testing menjadi lebih mudah dan terisolasi.
+    - Reduced coupling
+        Controller tidak tahu bagaimana data disimpan, ia hanya tahu bahwa ada CarService.
+3. Jika tidak menerapkan SOLID, maka:
+    - Tight coupling
+        Jika controller menggunakan CarServiceImpl, maka jika implementasi berubah, maka controller harus ikut diubah.
+    - Code duplication
+        Jika CarController meng-extend ProductController, maka method yang tidak relevan bisa ikut diwariskan.
+    - Lebih sulit ditest
+        Controller tidak dapat dimock dengan mudah.
+    - Sulit diextend
+        Jika ingin mengganti storage ke database, kita harus memodifikasi class yang sudah ada.
