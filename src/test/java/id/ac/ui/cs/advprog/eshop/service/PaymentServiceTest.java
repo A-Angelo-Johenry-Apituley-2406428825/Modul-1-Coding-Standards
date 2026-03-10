@@ -7,6 +7,7 @@ import java.util.*;
 
 import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Payment;
+import id.ac.ui.cs.advprog.eshop.model.Product;
 import id.ac.ui.cs.advprog.eshop.repository.PaymentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,9 +29,18 @@ class PaymentServiceTest {
 
     @BeforeEach
     void setUp() {
+
+        Product product = new Product();
+        product.setProductId("p1");
+        product.setProductName("Test Product");
+        product.setProductQuantity(1);
+
+        List<Product> products = new ArrayList<>();
+        products.add(product);
+
         order = new Order(
                 "order-1",
-                new ArrayList<>(),
+                products,
                 1708560000L,
                 "Safira Sudrajat"
         );
