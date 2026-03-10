@@ -2,7 +2,9 @@ package id.ac.ui.cs.advprog.eshop.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -17,9 +19,17 @@ class PaymentTest {
     @BeforeEach
     void setUp() {
 
+        Product product = new Product();
+        product.setProductId("p1");
+        product.setProductName("Test Product");
+        product.setProductQuantity(1);
+
+        List<Product> products = new ArrayList<>();
+        products.add(product);
+
         order = new Order(
                 "order-1",
-                null,
+                products,
                 1708560000L,
                 "Safira Sudrajat"
         );
