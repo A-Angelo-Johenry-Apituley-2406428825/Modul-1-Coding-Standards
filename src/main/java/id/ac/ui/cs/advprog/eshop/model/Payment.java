@@ -16,6 +16,11 @@ public class Payment {
     private Order order;
 
     public Payment(String id, Order order, String method, Map<String, String> paymentData) {
+        this.id = id;
+        this.order = order;
+        this.method = method;
+        this.paymentData = paymentData;
+        this.status = "PENDING";
     }
 
 }
