@@ -12,10 +12,16 @@ public class PaymentRepository {
     private List<Payment> paymentList = new ArrayList<>();
 
     public Payment save(Payment payment) {
-        return null;
+        paymentList.add(payment);
+        return payment;
     }
 
     public Payment findById(String id) {
+        for (Payment payment : paymentList) {
+            if (payment.getId().equals(id)) {
+                return payment;
+            }
+        }
         return null;
     }
 
