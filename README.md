@@ -84,3 +84,17 @@ Lack of Abstraction: Tes fungsional menjadi terlalu detail dalam hal teknis infr
         Controller tidak dapat dimock dengan mudah.
     - Sulit diextend
         Jika ingin mengganti storage ke database, kita harus memodifikasi class yang sudah ada.
+
+# Reflection Module 4
+1. 
+Dalam exercise ini saya menerapkan metode Test-Driven Development (TDD) dengan alur RED, GREEN, dan REFACTOR. Menurut saya, pendekatan ini cukup membantu dalam proses pengembangan fitur karena test dibuat terlebih dahulu sebelum implementasi kode. Dengan cara ini saya dapat memahami dengan lebih jelas perilaku yang diharapkan dari sistem sebelum menulis kode program.
+
+Pada tahap RED, saya menuliskan test yang menggambarkan fungsi yang diinginkan. Pada tahap GREEN, saya mengimplementasikan kode seminimal mungkin agar test dapat berhasil dijalankan. Setelah semua test berhasil, pada tahap REFACTOR saya memperbaiki struktur kode agar lebih rapi dan mudah dibaca tanpa mengubah perilaku program.
+
+Namun, dalam praktiknya terdapat beberapa kesulitan, terutama ketika harus membuat test terlebih dahulu tanpa implementasi yang sudah jelas. Selain itu, beberapa objek seperti Order memiliki validasi tertentu sehingga data untuk test harus disiapkan dengan benar agar tidak menimbulkan error. Ke depannya, saya perlu merancang skenario test lebih awal dan membuat helper method untuk mempermudah pembuatan objek yang sering digunakan dalam test sehingga kode test menjadi lebih sederhana dan mudah dipelihara.
+2. 
+Unit test yang dibuat pada exercise ini sebagian besar telah mengikuti prinsip F.I.R.S.T. yaitu Fast, Independent, Repeatable, Self-validating, dan Timely. Test yang dibuat bersifat fast karena hanya menguji unit kecil dari program seperti model, repository, dan service tanpa melibatkan sistem eksternal. Test juga independent karena setiap test dijalankan secara terpisah dan menggunakan @BeforeEach untuk memastikan kondisi awal yang sama.
+
+Selain itu, test bersifat repeatable karena dapat dijalankan berkali-kali dengan hasil yang konsisten. Test juga self-validating karena menggunakan assertion seperti assertEquals dan assertNull untuk menentukan keberhasilan test secara otomatis. Terakhir, test bersifat timely karena dibuat sebelum atau selama proses implementasi kode sesuai dengan pendekatan TDD.
+
+Meskipun demikian, masih terdapat beberapa hal yang dapat diperbaiki, seperti mengurangi duplikasi kode pada bagian setup test. Dengan membuat helper method, struktur test dapat menjadi lebih rapi dan lebih mudah dipahami.
